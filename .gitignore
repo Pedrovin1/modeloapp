@@ -1,6 +1,10 @@
 .vscode/*
-*/__pycache__/*
 guides/*
+
+*/__pycache__/*
+/apps/*/__pycache__/*
+/apps/*/migrations/*
+
 .env
 Wallet_modeloappdb/*
 Wallet_modeloappdb.zip
