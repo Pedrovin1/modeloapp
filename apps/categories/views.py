@@ -3,6 +3,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CategoryForm
 from .models import Category
 
+from rest_framework import viewsets
+from .serializer import CategorySerializer
+
+
+
+
+# - = - = - = - = - = - MVT - = - = - = - = - = -
+
 def add_category(request: HttpRequest):
     template_name = 'categories/add_category.html'
     context = {}
@@ -50,3 +58,9 @@ def delete_category(request, id_category):
     category = Category.objects.get(id=id_category)
     category.delete()
     return redirect('categories:list_categories')
+
+# - = - = - = - = - = - REST - = - = - = - = - = -
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer  
