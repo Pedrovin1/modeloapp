@@ -10,3 +10,4 @@ Wallet_modeloappdb/*
 Wallet_modeloappdb.zip
 
 media/*/*
+!media/*/placeholder.txt
