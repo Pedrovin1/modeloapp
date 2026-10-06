@@ -1,7 +1,12 @@
 from django.http import HttpRequest
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ProductForm
+
 from .models import Produtos
+from rest_framework import viewsets
+from .serializer import ProductSerializer
+
+# - = - = - = - = - = - MVT - = - = - = - = - = -
 
 def add_product(request: HttpRequest):
     template_name = 'products/add_product.html'
@@ -45,3 +50,10 @@ def delete_product(request: HttpRequest, id_product):
     product = Produtos.objects.get(id=id_product)
     product.delete()
     return redirect('products:list_products')
+
+# - = - = - = - = - = - REST - = - = - = - = - = -
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Produtos.objects.all()
+    serializer_class = ProductSerializer
+
