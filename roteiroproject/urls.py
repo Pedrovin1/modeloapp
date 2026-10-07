@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include('core.urls', namespace='core')),
 
     path('redessociais/', include('socialnetworks.urls', namespace='redessociais')),
+    # path('pessoas/', include('persons.urls', namespace='persons')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
