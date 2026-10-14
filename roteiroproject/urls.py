@@ -31,7 +31,8 @@ urlpatterns = [
     # path('pessoas/', include('persons.urls', namespace='persons')),
     path('funcionarios/', include('employees.urls', namespace='employees')),
     path('clientes/', include('clients.urls', namespace='clients')),
-    path('pedidos/', include('orders.urls', namespace='orders'))
+    path('pedidos/', include('orders.urls', namespace='orders')),
+    path('itens_pedido/', include('orderitems.urls', namespace='orderitems')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

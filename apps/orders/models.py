@@ -25,6 +25,6 @@ class Order(models.Model):
         ordering = ['id']
 
     def __str__(self):
-        return str(self.id)
-        # return f'{self.id}'
+        # return str(self.id)
+        return f'{self.id}'
 
