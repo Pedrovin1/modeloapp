@@ -30,7 +30,8 @@ urlpatterns = [
     path('redessociais/', include('socialnetworks.urls', namespace='redessociais')),
     # path('pessoas/', include('persons.urls', namespace='persons')),
     path('funcionarios/', include('employees.urls', namespace='employees')),
-    path('clientes/', include('clients.urls', namespace='clients'))
+    path('clientes/', include('clients.urls', namespace='clients')),
+    path('pedidos/', include('orders.urls', namespace='orders'))
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

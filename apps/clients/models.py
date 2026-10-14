@@ -7,12 +7,12 @@ class Client(Person):
                               choices=[
                                ('M', 'Masculino'),
                                ('F','Feminino'),
-                               ('O', 'Outro')   
+                               ('O', 'Outro')
                               ])
     socialnetwork = models.ManyToManyField(Socialnetwork, verbose_name="Redes Sociais")
 
     class Meta:
-        verbose_name = 'Cliente'
+        verbose_name = 'Clientes'
         verbose_name_plural = 'Clientes'
         ordering = ['id']
 
