@@ -25,4 +25,4 @@ L-> declara o nome que a pasta de static files do frontend no navegador terá
 
 ## name='appFolderName'
 
-"must match the name of the app's directory and is used by Django to locate and load the app." [https://django-tutorial.dev/course/django-for-beginners/app-structure/appspy/]
+"must match the name of the app's directory and is used by Django to locate and load the app." \[ [link](https://django-tutorial.dev/course/django-for-beginners/app-structure/appspy/) \]
