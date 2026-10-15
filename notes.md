@@ -26,3 +26,9 @@ L-> declara o nome que a pasta de static files do frontend no navegador terá
 ## name='appFolderName'
 
 "must match the name of the app's directory and is used by Django to locate and load the app." \[ [link](https://django-tutorial.dev/course/django-for-beginners/app-structure/appspy/) \]
+
+## verbose_name = 'nomeAqui'
+ L-> apenas para traduções
+
+# class Meta
+L-> Trata os dados resgatados do banco, para fins diversos, como fornecer ao Template em uma ordem específica por exemplo
