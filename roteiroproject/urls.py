@@ -26,8 +26,9 @@ urlpatterns = [
     path('categorias/', include('categories.urls', namespace='categories')),
     path('produtos/', include('products.urls', namespace='products')),
     path('redessociais/', include('socialnetworks.urls', namespace='socialnetworks')),
+    path('funcionarios/', include('employees.urls', namespace='employees')),
+
     path('', include('core.urls', namespace='core')),
-    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

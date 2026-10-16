@@ -32,3 +32,11 @@ L-> declara o nome que a pasta de static files do frontend no navegador terá
 
 # class Meta
 L-> Trata os dados resgatados do banco, para fins diversos, como fornecer ao Template em uma ordem específica por exemplo
+
+# Models
+
+## Oracle Databse Table Names
+
+Novas tabelas criadas através do makemigrations + migrate seguem a convenção:
+
+\[ NOME_DO_APP + NOME_DO_MODEL \]
