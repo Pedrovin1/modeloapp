@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ClientForm
 from .models import Client, Socialnetwork
 
+from django.contrib.auth.decorators import login_required
+
+
+@login_required(login_url='/contas/login/')
 def add_client(request):
     template_name = 'clients/add_client.html'
     context = {}
@@ -24,7 +28,7 @@ def list_clients(request):
     }
     return render(request, template_name, context)
 
-
+@login_required(login_url='/contas/login/')
 def edit_client(request, id_client):
     template_name = 'clients/add_client.html'
     context ={}
@@ -38,7 +42,7 @@ def edit_client(request, id_client):
     context['form'] = form
     return render(request, template_name, context)
 
-
+@login_required(login_url='/contas/login/')
 def delete_client(request, id_client):
     client = Client.objects.get(id=id_client)
     client.delete()

@@ -3,6 +3,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ProductForm
 from .models import Produtos
 
+from django.contrib.auth.decorators import login_required
+
+
+@login_required(login_url='/contas/login/')
 def add_product(request: HttpRequest):
     template_name = 'products/add_product.html'
     context = {}
@@ -27,7 +31,7 @@ def list_products(request: HttpRequest):
     }
     return render(request, template_name, context)
 
-
+@login_required(login_url='/contas/login/')
 def edit_product(request: HttpRequest, id_product):
     template_name = 'products/add_product.html'
     context ={}
@@ -41,6 +45,7 @@ def edit_product(request: HttpRequest, id_product):
     context['form'] = form
     return render(request, template_name, context)
 
+@login_required(login_url='/contas/login/')
 def delete_product(request: HttpRequest, id_product):
     product = Produtos.objects.get(id=id_product)
     product.delete()

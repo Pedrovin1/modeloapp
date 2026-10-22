@@ -2,6 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import EmployeeForm
 from .models import Employee
 
+from django.contrib.auth.decorators import login_required
+
+
+@login_required(login_url='/contas/login/')
 def add_employee(request):
     template_name = 'employees/add_employee.html'
     context = {}
@@ -24,6 +28,7 @@ def list_employees(request):
     }
     return render(request, template_name, context)
 
+@login_required(login_url='/contas/login/')
 def edit_employee(request, id_employee):
     template_name = 'employees/add_employee.html'
     context ={}
@@ -37,6 +42,7 @@ def edit_employee(request, id_employee):
     context['form'] = form
     return render(request, template_name, context)
 
+@login_required(login_url='/contas/login/')
 def delete_employee(request, id_employee):
     employee = Employee.objects.get(id=id_employee)
     employee.delete()

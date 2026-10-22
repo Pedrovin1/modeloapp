@@ -8,6 +8,9 @@ from employees.models import Employee
 
 from invoices.views import create_invoice_for_order
 
+from django.contrib.auth.decorators import login_required
+
+
 def list_orders(request):
     template_name = 'orders/list_orders.html'
     orders = Order.objects.select_related('client', 'employee').all()
@@ -38,7 +41,7 @@ def cart(request):
     }
     return render(request, template_name, context)
 
-
+@login_required(login_url='/contas/login/')
 def add_cart(request, product_id):
     product = get_object_or_404(Produtos, id=product_id)
     cart = request.session.get('cart', {})
@@ -59,7 +62,7 @@ def add_cart(request, product_id):
     request.session.modified = True
     return redirect('orders:cart')
 
-
+@login_required(login_url='/contas/login/')
 def edit_cart(request, product_id):
     if request.method == 'POST':
         quantity = int(request.POST.get('quantity', 1))
@@ -76,7 +79,7 @@ def edit_cart(request, product_id):
         request.session.modified = True
     return redirect('orders:cart')
 
-
+@login_required(login_url='/contas/login/')
 def delete_cart(request, product_id):
     cart = request.session.get('cart', {})
     pid = str(product_id)
@@ -86,7 +89,7 @@ def delete_cart(request, product_id):
     request.session.modified = True
     return redirect('orders:cart')
 
-
+@login_required(login_url='/contas/login/')
 def checkout(request):
     template_name = 'orders/checkout.html'
     cart = request.session.get('cart', {})
@@ -136,7 +139,7 @@ def checkout(request):
     }
     return render(request, template_name, context)
 
-
+@login_required(login_url='/contas/login/')
 def cancel_order(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     if order.status != 'Cancelado':
@@ -155,6 +158,7 @@ def view_order(request, order_id):
     }
     return render(request, template_name, context)
 
+@login_required(login_url='/contas/login/')
 def checkout(request):
     template_name = 'orders/checkout.html'
     cart = request.session.get('cart', {})

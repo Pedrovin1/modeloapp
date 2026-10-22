@@ -6,11 +6,11 @@ from .models import Category
 from rest_framework import viewsets
 from .serializer import CategorySerializer
 
-
-
+from django.contrib.auth.decorators import login_required
 
 # - = - = - = - = - = - MVT - = - = - = - = - = -
 
+@login_required(login_url='/contas/login/')
 def add_category(request: HttpRequest):
     template_name = 'categories/add_category.html'
     context = {}
@@ -36,7 +36,7 @@ def list_categories(request: HttpRequest):
     }
     return render(request, template_name, context)
 
-
+@login_required(login_url='/contas/login/')
 def edit_category(request: HttpRequest, id_category):
     template_name = 'categories/add_category.html'
     context ={}
@@ -53,7 +53,7 @@ def edit_category(request: HttpRequest, id_category):
     context['form'] = form
     return render(request, template_name, context)
 
-
+@login_required(login_url='/contas/login/')
 def delete_category(request, id_category):
     category = Category.objects.get(id=id_category)
     category.delete()
