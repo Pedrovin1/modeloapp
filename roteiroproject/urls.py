@@ -30,6 +30,7 @@ urlpatterns = [
     path('clientes/', include('clients.urls', namespace='clients')),
     path('pedidos/', include('orders.urls', namespace='orders')),
     path('notas/', include('invoices.urls', namespace='invoices')),
+    path('contas/', include('accounts.urls', namespace='accounts')),
 
     path('', include('core.urls', namespace='core')),
 ]
