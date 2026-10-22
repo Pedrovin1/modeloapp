@@ -45,7 +45,7 @@ def cart(request):
 def add_cart(request, product_id):
     product = get_object_or_404(Produtos, id=product_id)
     cart = request.session.get('cart', {})
-    pid = str(product.id)
+    pid = str(product.pk)
     if pid in cart:
         cart[pid]['quantity'] += 1
     else:
@@ -90,56 +90,6 @@ def delete_cart(request, product_id):
     return redirect('orders:cart')
 
 @login_required(login_url='/contas/login/')
-def checkout(request):
-    template_name = 'orders/checkout.html'
-    cart = request.session.get('cart', {})
-    total = 0.0
-    for key, item in cart.items():
-        total += float(item['subtotal'])
-    clients = Client.objects.all()
-    employees = Employee.objects.all()
-    if request.method == 'POST':
-        client_id = request.POST.get('client')
-        employee_id = request.POST.get('employee')
-        payment_method = request.POST.get('payment_method')
-        client = get_object_or_404(Client, id=client_id)
-        employee = get_object_or_404(Employee, id=employee_id)
-        order = Order.objects.create(
-            client=client,
-            employee=employee,
-            payment_method=payment_method,
-            status='Finalizado',
-            total=0
-        )
-        total_order = 0.0
-        for product_id, item in cart.items():
-            product = get_object_or_404(Produtos, id=product_id)
-            quantity = int(item['quantity'])
-            unit_price = float(item['price'])
-            subtotal = unit_price * quantity
-            Orderitem.objects.create(
-                order=order,
-                product=product,
-                quantity=quantity,
-                unit_price=unit_price,
-                subtotal=subtotal
-            )
-            total_order += subtotal
-        order.total = total_order
-        order.save()
-        request.session['cart'] = {}
-        request.session.modified = True
-        return redirect('orders:view_order', order_id=order.id)
-    context = {
-        'cart': cart,
-        'total': total,
-        'clients': clients,
-        'employees': employees,
-        'payment_methods': Order._meta.get_field('payment_method').choices,
-    }
-    return render(request, template_name, context)
-
-@login_required(login_url='/contas/login/')
 def cancel_order(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     if order.status != 'Cancelado':
@@ -151,7 +101,7 @@ def cancel_order(request, order_id):
 def view_order(request, order_id):
     template_name = 'orders/view_order.html'
     order = get_object_or_404(Order, id=order_id)
-    items = order.items.all()
+    items = order.objects.all()
     context = {
         'order': order,
         'items': items,
@@ -196,12 +146,10 @@ def checkout(request):
             total_order += subtotal
         order.total = total_order
         order.save()
-        # Adicione essa linha no metodo.
         create_invoice_for_order(order)
-        # Adicione essa linha no metodo.
         request.session['cart'] = {}
         request.session.modified = True
-        return redirect('orders:view_order', order_id=order.id)
+        return redirect('orders:view_order', order_id=order.pk)
     context = {
         'cart': cart,
         'total': total,
