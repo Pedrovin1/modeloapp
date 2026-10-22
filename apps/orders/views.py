@@ -6,6 +6,8 @@ from products.models import Produtos
 from clients.models import Client
 from employees.models import Employee
 
+from invoices.views import create_invoice_for_order
+
 def list_orders(request):
     template_name = 'orders/list_orders.html'
     orders = Order.objects.select_related('client', 'employee').all()
@@ -152,3 +154,56 @@ def view_order(request, order_id):
         'items': items,
     }
     return render(request, template_name, context)
+
+def checkout(request):
+    template_name = 'orders/checkout.html'
+    cart = request.session.get('cart', {})
+    total = 0.0
+    for key, item in cart.items():
+        total += float(item['subtotal'])
+    clients = Client.objects.all()
+    employees = Employee.objects.all()
+    if request.method == 'POST':
+        client_id = request.POST.get('client')
+        employee_id = request.POST.get('employee')
+        payment_method = request.POST.get('payment_method')
+        client = get_object_or_404(Client, id=client_id)
+        employee = get_object_or_404(Employee, id=employee_id)
+        order = Order.objects.create(
+            client=client,
+            employee=employee,
+            payment_method=payment_method,
+            status='Finalizado',
+            total=0
+        )
+        total_order = 0.0
+        for product_id, item in cart.items():
+            product = get_object_or_404(Produtos, id=product_id)
+            quantity = int(item['quantity'])
+            unit_price = float(item['price'])
+            subtotal = unit_price * quantity
+            Orderitem.objects.create(
+                order=order,
+                product=product,
+                quantity=quantity,
+                unit_price=unit_price,
+                subtotal=subtotal
+            )
+            total_order += subtotal
+        order.total = total_order
+        order.save()
+        # Adicione essa linha no metodo.
+        create_invoice_for_order(order)
+        # Adicione essa linha no metodo.
+        request.session['cart'] = {}
+        request.session.modified = True
+        return redirect('orders:view_order', order_id=order.id)
+    context = {
+        'cart': cart,
+        'total': total,
+        'clients': clients,
+        'employees': employees,
+        'payment_methods': Order._meta.get_field('payment_method').choices,
+    }
+    return render(request, template_name, context)
+
