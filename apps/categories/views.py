@@ -6,8 +6,8 @@ from .models import Category
 from rest_framework import viewsets
 from .serializer import CategorySerializer
 
-
-
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 # - = - = - = - = - = - MVT - = - = - = - = - = -
 
@@ -61,6 +61,9 @@ def delete_category(request, id_category):
 
 # - = - = - = - = - = - REST - = - = - = - = - = -
 
+
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer  
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]

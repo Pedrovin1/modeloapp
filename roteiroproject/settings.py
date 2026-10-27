@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_filters',
+    'rest_framework.authtoken',
     
     'core.apps.CoreConfig',
     'categories.apps.CategoriesConfig',
